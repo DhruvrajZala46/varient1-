@@ -2,14 +2,16 @@ import os
 import requests
 
 # Load sensitive data from environment variables
-SHOPIFY_STORE_URL = os.getenv("SHOPIFY_STORE_URL", "https://chargic.myshopify.com/")
+SHOPIFY_STORE_URL = os.getenv("SHOPIFY_STORE_URL")  
+if not SHOPIFY_STORE_URL:
+    raise ValueError("Missing SHOPIFY_STORE_URL. Set it as an environment variable.")  
 ACCESS_TOKEN = os.getenv("SHOPIFY_ACCESS_TOKEN")
 
 def fetch_products():
     if not ACCESS_TOKEN:
         raise ValueError("Missing Shopify access token. Set SHOPIFY_ACCESS_TOKEN as an environment variable.")
 
-    url = f"{SHOPIFY_STORE_URL}/admin/api/2023-10/products.json"
+    url = f"{SHOPIFY_STORE_URL.rstrip('/')}/admin/api/2023-10/products.json"
     headers = {"X-Shopify-Access-Token": ACCESS_TOKEN}
 
     try:
