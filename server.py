@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from recommend_product import recommend_product
 from intent_analysis import analyze_intent  # Ensure this module exists
@@ -28,4 +29,5 @@ def recommend(query: str):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.getenv("PORT", 8000))  # Use Render's assigned port if available
+    uvicorn.run(app, host="0.0.0.0", port=port)
